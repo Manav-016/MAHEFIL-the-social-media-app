@@ -12,10 +12,11 @@ export const verify = async (req, res, next) => {
       token = token.slice(7, token.length).trimLeft();
     }
 
-    const verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const verifiedObject = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    req.user = verified;
+    req.user = verifiedObject;
 
+    console.log("VERIFICATION OF TOKEN IS DONE");
     next();
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -8,8 +8,12 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
+import userRoutes from "./routes/userRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 import { register } from "./controllers/authentication.js";
 import authUser from "./routes/authentication.js";
+import { verify } from "crypto";
+import { createPost } from "./controllers/postController.js";
 
 /*CONF*/
 
@@ -52,9 +56,13 @@ const upload = multer({ storage });
 
 app.post("/auth/register", upload.single("picture"), register);
 
+app.post("/posts",verify,upload.single("picture"),createPost)
+
 /*routs*/
 
 app.use("/auth", authUser);
+app.use("/user", userRoutes);
+app.use("/posts", postRoutes);
 
 /*mongo*/
 
